@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include "priority_queue.h"
 
 
@@ -41,20 +42,26 @@ int is_less_than(Node **nds, int a, int b)
 Node* delete_min(PQ *p_queue)
 {
     if(p_queue == NULL || p_queue->entered_nodes == 0){ return NULL; }
+
     Node *min_n = *(p_queue->nodes + 1);  //return an address
     exchange_nodes(p_queue->nodes, p_queue->entered_nodes, 1);
-    *(p_queue->nodes + p_queue->entered_nodes) = NULL;
+    *(p_queue->nodes + p_queue->entered_nodes) = NULL;  
     p_queue->entered_nodes--;
 
     int i = 1;                  //sink
-    int small_child;
-    while((2*i) <= p_queue->entered_nodes)
+    int small_child_idx;
+
+    //while the left child of parent i is not a leaf node. The left child could be at indexes less than "entered nodes" or at index "entered nodes"
+    while((2*i) <= p_queue->entered_nodes) 
     {
-        small_child = 2*i;
-        if(is_less_than(p_queue->nodes, small_child+1, small_child)){ small_child++; }
-        if(!is_less_than(p_queue->nodes, small_child, i)){ break; }
-        exchange_nodes(p_queue->nodes, i, small_child);
-        i = small_child;
+        small_child_idx = 2*i;  // assuming, for now, that the left child has the smallest key, and therefore we are storing its idex.
+        // There is always a left child, but there may or may not be a right child. Therefore we must check for the presence of the right child.
+        // If small_child_idx is less than "entered_nodes" index then there IS a right child
+        // if small_child_idx equals or greater than "entered_nodes" index then there is NO right child. Because "entered_nodes" marks the index of the last node in the array which is being occupied by the left child.
+        if(small_child_idx < p_queue->entered_nodes && is_less_than(p_queue->nodes, small_child_idx+1, small_child_idx)){ small_child_idx++; } 
+        if(!is_less_than(p_queue->nodes, small_child_idx, i)){ break; }
+        exchange_nodes(p_queue->nodes, i, small_child_idx);
+        i = small_child_idx;
     }
 
     if(p_queue->entered_nodes+1 == p_queue->capacity/4){ resize(p_queue, p_queue->capacity/2); }
