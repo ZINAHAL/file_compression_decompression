@@ -1,4 +1,6 @@
 %{
+    #include "cJSON/cJSON.h"
+    
     #define ASCII_CHARACTERS 128
     int ASCII_frequencies[ASCII_CHARACTERS];         
 %}
@@ -115,4 +117,53 @@ z               { ASCII_frequencies['z']++;  }
 void main()
 {
     yylex();
+
+    // The code below was taken from (cJSON) https://github.com/DaveGamble/cJSON/tree/3c8935676a97c7c97bf006db8312875b4f292f6c
+    cJSON *output = cJSON_CreateObject();
+
+    cJSON *char_freq_enteries = cJSON_AddArrayToObject(output, "chars_and_frequencies");
+    if(char_freq_enteries == NULL)
+    {
+        printf("Could not create the root JSON object or the JSON array\n");
+        exit(0);
+    }
+
+    cJSON *entry;
+    for(int i = 0; i < ASCII_CHARACTERS; i++)
+    {
+        if(ASCII_frequencies[i])
+        {
+            entry = cJSON_CreateObject();
+
+            char c[1] = {i};    
+            if(cJSON_AddStringToObject(entry, "character", c) == NULL)
+            {
+                printf("Could not create a JSON object or add a string item to the object");
+                exit(0);
+            }
+
+            if(cJSON_AddNumberToObject(entry, "frequency", ASCII_frequencies[i]) == NULL)
+            {
+                printf("Could not add a number item to the object");
+                exit(0);
+            }
+
+            cJSON_AddItemToArray(char_freq_enteries, entry);
+        }
+    }
+    //*************************************************************************************************************
+
+    FILE *fptr = fopen("frequencies_of_chars.json", "w");
+    if(fptr == NULL)
+    {
+        printf("Could not open the file\n");
+        exit(0);
+    }
+    fprintf(fptr, "%s", cJSON_Print(output));
+    fclose(fptr);
+
+    cJSON_Delete(output);
+
+    //printf("I'm at the end zinah, so far seems so good\n");
+
 }
