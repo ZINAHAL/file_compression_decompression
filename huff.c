@@ -8,12 +8,15 @@ char* get_user_input(char*);
 int get_file_size(FILE*);
 void free_buffer(char*);
 
+char* get_chars_and_its_frequencies(char*);
 
 void main(int argc, char **argv)
 {
     check_user_input_valid(argc, argv);
     char *user_input_buffer = get_user_input(argv[1]);
+    char *json_buffer = get_chars_and_its_frequencies(argv[1]);
 
+    free_buffer(json_buffer);
     free_buffer(user_input_buffer); 
 }
 
@@ -59,4 +62,23 @@ int get_file_size(FILE *fptr)
 void free_buffer(char *buffer)
 {
     free(buffer);
+}
+
+char* get_chars_and_its_frequencies(char *file_name)
+{ 
+    char instruction[strlen("./a.out < ") + strlen(file_name) + 1];
+    strcpy(instruction, "./a.out < ");
+    strcat(instruction, file_name);
+    FILE *fptr = popen(instruction, "r"); // a stream/pipe is opened
+    if(fptr == NULL)
+    {
+        printf("There is error in the given instruction\n");
+        exit(0);
+    }
+    char *buffer;
+    int buffer_size = 6000;
+    buffer = malloc(sizeof(buffer)*buffer_size);
+    fread(buffer, sizeof(buffer), buffer_size, fptr);
+    pclose(fptr);
+    return buffer;
 }

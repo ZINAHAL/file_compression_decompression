@@ -152,18 +152,7 @@ void main()
         }
     }
     //*************************************************************************************************************
-
-    FILE *fptr = fopen("frequencies_of_chars.json", "w");
-    if(fptr == NULL)
-    {
-        printf("Could not open the file\n");
-        exit(0);
-    }
-    fprintf(fptr, "%s", cJSON_Print(output));
-    fclose(fptr);
-
+   
+    printf("%s", cJSON_Print(output));
     cJSON_Delete(output);
-
-    //printf("I'm at the end zinah, so far seems so good\n");
-
 }
