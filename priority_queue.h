@@ -9,9 +9,9 @@ typedef struct node{
 } Node;
 
 typedef struct {
-    int entered_nodes;
+    int entered_nodes_counter;
     int capacity;
-    Node **nodes;
+    Node **nodes_buffer;
 } PQ;
 
 // structs are either passed by referance or by value.
