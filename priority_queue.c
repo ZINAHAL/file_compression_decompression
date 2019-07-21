@@ -6,7 +6,7 @@
 //p_queue->capacity is equivalent to (*p_queue).capacity
 
 
-void insert(PQ *p_queue, Node *user_node)
+void insert(MinPriorityQueue *p_queue, Node *user_node)
 {
     if(p_queue->entered_nodes_counter+1 == p_queue->capacity) { resize(p_queue, p_queue->capacity*2); }
     
@@ -21,7 +21,7 @@ void insert(PQ *p_queue, Node *user_node)
     }
 }
 
-void resize(PQ *p_queue, int new_size)
+void resize(MinPriorityQueue *p_queue, int new_size)
 {
     p_queue->nodes_buffer = realloc(p_queue->nodes_buffer, new_size*sizeof(*(p_queue->nodes_buffer)));
     p_queue->capacity = new_size;
@@ -39,7 +39,7 @@ int is_less_than(Node **nds, int a, int b)
     return (*(nds + a))->key < (*(nds + b))->key;
 }
 
-Node* delete_min(PQ *p_queue)
+Node* delete_min(MinPriorityQueue *p_queue)
 {
     if(p_queue == NULL || p_queue->entered_nodes_counter == 0){ return NULL; }
 
@@ -79,4 +79,15 @@ Node* create_node(int k, char v, Node* l, Node* r)
     result->right = r;
 
     return result;
+}
+
+MinPriorityQueue* create_empty_queue()
+{
+    MinPriorityQueue *queue = NULL;
+    queue = malloc(sizeof(*queue));
+    queue->entered_nodes_counter = 0;
+    queue->capacity = 30;
+    queue->nodes_buffer = malloc(sizeof(*(queue->nodes_buffer)) * queue->capacity);
+
+    return queue;
 }
