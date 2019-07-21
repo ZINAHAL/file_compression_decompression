@@ -1,24 +1,6 @@
-#include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
-
-//if the user input is not valid then the program will be terminated by the exit(0) function. 
-void check_user_input_valid(int, char**);
-char* get_user_input(char*);
-int get_file_size(FILE*);
-void free_buffer(char*);
-
-char* get_chars_and_its_frequencies(char*);
-
-void main(int argc, char **argv)
-{
-    check_user_input_valid(argc, argv);
-    char *user_input_buffer = get_user_input(argv[1]);
-    char *json_buffer = get_chars_and_its_frequencies(argv[1]);
-
-    free_buffer(json_buffer);
-    free_buffer(user_input_buffer); 
-}
+#include <string.h>
+#include "program_input_handler.h"
 
 
 void check_user_input_valid(int argc, char **argv)
