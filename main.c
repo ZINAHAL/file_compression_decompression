@@ -31,6 +31,10 @@ void main(int argc, char **argv)
         insert(p_queue, node);
     }
 
-    free_buffer(json_buffer);
-    free_buffer(user_input_buffer); 
+
+    free(node);
+    cJSON_Delete(json_data);
+    free(p_queue);
+    free(json_buffer);
+    free(user_input_buffer);
 }

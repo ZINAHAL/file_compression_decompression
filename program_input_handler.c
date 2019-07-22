@@ -41,11 +41,6 @@ int get_file_size(FILE *fptr)
     return size;
 }
 
-void free_buffer(char *buffer)
-{
-    free(buffer);
-}
-
 char* get_chars_and_its_frequencies(char *file_name)
 { 
     char instruction[strlen("./a.out < ") + strlen(file_name) + 1];
