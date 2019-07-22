@@ -31,6 +31,7 @@ void main(int argc, char **argv)
         insert(p_queue, node);
     }
 
+    Node *huffman_tree_root = create_huffman_tree(p_queue);
 
     free(node);
     cJSON_Delete(json_data);
