@@ -2,6 +2,8 @@
 #include "program_input_handler.h"
 #include "priority_queue.h"
 #include "cJSON/cJSON.h"
+#include "huff_and_unhuff.h"
+#define ASCII_CHARACTERS 128
 
 
 void main(int argc, char **argv)
@@ -32,7 +34,11 @@ void main(int argc, char **argv)
     }
 
     Node *huffman_tree_root = create_huffman_tree(p_queue);
+    int *code_table = NULL;
+    code_table = malloc(ASCII_CHARACTERS * sizeof(*code_table));
+    traverse_huffman_tree(huffman_tree_root, code_table, 0);
 
+    free(code_table)
     free(node);
     cJSON_Delete(json_data);
     free(p_queue);

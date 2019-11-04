@@ -4,6 +4,6 @@
 #include "priority_queue.h"
 
 Node* create_huffman_tree(MinPriorityQueue*);
-
+void traverse_huffman_tree(Node*, int*, int);
 
 #endif

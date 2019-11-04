@@ -7,7 +7,6 @@
 
 %%
 
-\0              { ASCII_frequencies['\0']++; }
 \a              { ASCII_frequencies['\a']++; }
 \b              { ASCII_frequencies['\b']++; }
 \t              { ASCII_frequencies['\t']++; }

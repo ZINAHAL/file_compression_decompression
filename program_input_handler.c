@@ -43,8 +43,8 @@ int get_file_size(FILE *fptr)
 
 char* get_chars_and_its_frequencies(char *file_name)
 { 
-    char instruction[strlen("./a.out < ") + strlen(file_name) + 1];
-    strcpy(instruction, "./a.out < ");
+    char instruction[strlen("./get_frequencies_of_chars < ") + strlen(file_name) + 1];
+    strcpy(instruction, "./get_frequencies_of_chars < ");
     strcat(instruction, file_name);
     FILE *fptr = popen(instruction, "r"); // a stream/pipe is opened
     if(fptr == NULL)
