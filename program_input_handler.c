@@ -27,16 +27,17 @@ char* get_user_input(char *file_name)
     }
     int file_size = get_file_size(fptr); 
     char *buffer;
-    buffer = malloc(sizeof(buffer)*file_size);
-    fread(buffer, sizeof(buffer), file_size, fptr);
+    buffer = malloc(sizeof(*buffer) * (file_size + 1)); // the 1 is for the null '\0' character
+    fread(buffer, sizeof(*buffer), file_size, fptr);
     fclose(fptr);
+    *(buffer + file_size) = '\0';
     return buffer;
 }
 
 int get_file_size(FILE *fptr)
 {
-    fseek(fptr, 0, SEEK_END);
-    int size = ftell(fptr) + 1;
+    fseek(fptr, 0, SEEK_END); // fseek will fail on files > 4GB
+    int size = ftell(fptr);
     rewind(fptr);
     return size;
 }
