@@ -42,21 +42,34 @@ int get_file_size(FILE *fptr)
     return size;
 }
 
-char* get_chars_and_its_frequencies(char *file_name)
-{ 
-    char instruction[strlen("./get_frequencies_of_chars < ") + strlen(file_name) + 1];
-    strcpy(instruction, "./get_frequencies_of_chars < ");
-    strcat(instruction, file_name);
-    FILE *fptr = popen(instruction, "r"); // a stream/pipe is opened
-    if(fptr == NULL)
+int* get_chars_frequencies(int characters, char *user_input)
+{
+    int *buffer;
+    buffer = calloc(characters, sizeof(*buffer));
+    for(int i = 0; *(user_input + i) != '\0'; i++)
     {
-        printf("There is error in the given instruction\n");
-        exit(0);
+        printf("%d\n", *(user_input + i));
+        *(buffer + *(user_input + i)) = *(buffer + *(user_input + i)) + 1;
     }
-    char *buffer;
-    int buffer_size = 6000;
-    buffer = malloc(sizeof(buffer)*buffer_size);
-    fread(buffer, sizeof(buffer), buffer_size, fptr);
-    pclose(fptr);
     return buffer;
 }
+
+
+// char* get_chars_and_its_frequencies(char *file_name)
+// { 
+//     char instruction[strlen("./get_frequencies_of_chars < ") + strlen(file_name) + 1];
+//     strcpy(instruction, "./get_frequencies_of_chars < ");
+//     strcat(instruction, file_name);
+//     FILE *fptr = popen(instruction, "r"); // a stream/pipe is opened
+//     if(fptr == NULL)
+//     {
+//         printf("There is error in the given instruction\n");
+//         exit(0);
+//     }
+//     char *buffer;
+//     int buffer_size = 6000;
+//     buffer = malloc(sizeof(*buffer)*buffer_size);
+//     fread(buffer, sizeof(buffer), buffer_size, fptr);
+//     pclose(fptr);
+//     return buffer;
+// }
